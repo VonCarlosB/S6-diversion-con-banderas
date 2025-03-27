@@ -8,3 +8,41 @@ body {
 h1 {
   color: #333;
 }
+
+#countries-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.country{
+  width: 12%;
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.country img{
+  width: 100%;
+}
+
+#floating-window{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: rgba(211, 211, 211, 0.4);
+}
+
+.floatingContent{
+  width: 50%;
+  background-color: white;
+  padding: 20px;
+}
+
+.floatingContent>div{
+  display: flex;
+}

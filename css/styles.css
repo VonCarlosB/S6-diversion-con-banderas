@@ -35,14 +35,27 @@ h1 {
   left: 0;
   height: 100vh;
   background-color: rgba(211, 211, 211, 0.4);
+  align-content: center;
 }
 
 .floatingContent{
-  width: 50%;
+  width: 60%;
+  margin: auto;
   background-color: white;
-  padding: 20px;
+  padding: 40px 20px;
+  border-radius: 10px;
 }
 
 .floatingContent>div{
   display: flex;
+  margin-bottom: 10px;
+}
+
+.floatingContent img{
+  object-fit: contain;
+  border: 1px solid lightgray;
+}
+
+.info{
+  margin-left: 15px;
 }

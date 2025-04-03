@@ -2,6 +2,7 @@ const countryList = document.getElementById('countries-list')
 const floatingWindow = document.getElementById('floating-window')
 let countryId = -1
 
+//Template of a div with id, name and flag
 const template = (country) => {
     countryId++
     localStorage.setItem(countryId, JSON.stringify(country))
@@ -19,26 +20,29 @@ const getCountries = async () => {
         if(!response.ok){
             throw new Error('Error: '+response.status)
         }
-        const countries = await response.json()
-
-        let ans = countries.sort((a, b) => a.name.common > b.name.common)
-        ans = ans.map((country) => template(country))
-        localStorage.setItem('countries', ans.join(""))
-        countryList.innerHTML = ans.join("")
+        //Get countries
+        let countries = await response.json()
+        //Sort countries
+        countries.sort((a, b) => a.name.common > b.name.common)
+        //Create divs
+        countries = countries.map((country) => template(country))
+        //Save divs as string
+        localStorage.setItem('countries', countries.join(""))
+        //Update HTML
+        countryList.innerHTML = countries.join("")
     }catch(err){
         console.error(err)
     }
 }
 
-localStorage.clear()
-
+//Check for countries in localStorage
 if(localStorage.getItem('countries') == null){
     getCountries()
 }else{
     countryList.innerHTML = localStorage.getItem('countries')
-    console.log(localStorage)
 }
 
+//Creates a popUp window with info of the selected country
 function popUp(Id) {
     let data = JSON.parse(localStorage.getItem(Id))
     console.log(data)
@@ -60,6 +64,7 @@ function popUp(Id) {
     document.getElementById('closeBtn').addEventListener('click', close)
 }
 
+//Closes the popUp window
 function close() {
     floatingWindow.style.display = "none"
     floatingWindow.innerHTML = ''

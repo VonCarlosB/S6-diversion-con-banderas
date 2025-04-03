@@ -2,25 +2,6 @@ const countryList = document.getElementById('countries-list')
 const floatingWindow = document.getElementById('floating-window')
 let countryId = -1
 
-localStorage.clear()
-
-if(localStorage.getItem('countries') == null){
-    fetch('https://restcountries.com/v3/all').then((response) => {
-        if(!response.ok){
-            throw new Error('Ha sucedido un error con la petición ', response.status)
-        }
-        return response.json()
-    }).then((data) => {
-        let ans = data.sort((a, b) => a.name.common > b.name.common)
-        ans = ans.map((country) => template(country))
-        localStorage.setItem('countries', ans.join(""))
-        countryList.innerHTML = ans.join("")
-    }).catch((err) => console.error(err))
-}else{
-    countryList.innerHTML = localStorage.getItem('countries')
-    console.log(localStorage)
-}
-
 const template = (country) => {
     countryId++
     localStorage.setItem(countryId, JSON.stringify(country))
@@ -30,6 +11,32 @@ const template = (country) => {
             <h4>${country.name.common}</h4>
         </div>
     `
+}
+
+const getCountries = async () => {
+    try{
+        const response = await fetch('https://restcountries.com/v3/all')
+        if(!response.ok){
+            throw new Error('Error: '+response.status)
+        }
+        const countries = await response.json()
+        
+        let ans = countries.sort((a, b) => a.name.common > b.name.common)
+        ans = ans.map((country) => template(country))
+        localStorage.setItem('countries', ans.join(""))
+        countryList.innerHTML = ans.join("")
+    }catch(err){
+        console.error(err)
+    }
+}
+
+localStorage.clear()
+
+if(localStorage.getItem('countries') == null){
+    getCountries()
+}else{
+    countryList.innerHTML = localStorage.getItem('countries')
+    console.log(localStorage)
 }
 
 function popUp(Id) {
